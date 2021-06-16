@@ -30,6 +30,12 @@ public class UnblockRequestServiceImpl implements UnblockRequestService {
         this.accountService = accountService;
     }
 
+    /**
+     * finds request by given id
+     *
+     * @param requestId id of request that needs to be found
+     * @return found unblock request
+     */
     @Override
     public UnblockRequest findRequestById(long requestId) {
         try {
@@ -41,10 +47,15 @@ public class UnblockRequestServiceImpl implements UnblockRequestService {
         }
     }
 
+    /**
+     * creates and saves new unblocked request
+     *
+     * @param accountId id of account for which request is created
+     * @param clientId  id of client for which request is created
+     * @return created unblock request and list of error messages
+     */
     @Override
     public Response<UnblockRequest> createNewRequest(long accountId, long clientId) {
-
-
         UnblockRequest request = new UnblockRequest();
         Account account = new Account();
         account.setId(accountId);
@@ -64,6 +75,13 @@ public class UnblockRequestServiceImpl implements UnblockRequestService {
         }
     }
 
+    /**
+     * finds all unblock requests of certain client
+     *
+     * @param clientId id of client whose unblock requests need to be found
+     * @param page     paging and sorting parameters for search
+     * @return found unblock requests of certain client
+     */
     @Override
     public List<UnblockRequest> findAllClientRequests(long clientId, PageAndSort page) {
         logger.debug("Find requests for clientId {}, page and sort {}", clientId, page);
@@ -78,15 +96,19 @@ public class UnblockRequestServiceImpl implements UnblockRequestService {
         }
     }
 
+    /**
+     * updates request
+     *
+     * @param requestId id of request that needs to be accepted
+     * @return updated request and list of error messages
+     */
     @Override
     public Response<UnblockRequest> acceptRequest(long requestId) {
-
         UnblockRequest request = findRequestById(requestId);
         if (request == null) {
             String message = "Unblock request with id " + requestId + " does not exist";
             logger.error(message);
             return new Response<>(message);
-
         }
         accountService.unblockAccount(request.getAccount().getId());
         try {
@@ -98,6 +120,12 @@ public class UnblockRequestServiceImpl implements UnblockRequestService {
         }
     }
 
+    /**
+     * finds all requests
+     *
+     * @param page paging and sorting parameters for search
+     * @return found requests
+     */
     @Override
     public List<UnblockRequest> findAllRequests(PageAndSort page) {
         logger.debug("findAllRequests with page and sort {}", page);
@@ -111,6 +139,11 @@ public class UnblockRequestServiceImpl implements UnblockRequestService {
         }
     }
 
+    /**
+     * counts all unblock requests
+     *
+     * @return amount of unblock requests
+     */
     @Override
     public long countAll() {
         try {

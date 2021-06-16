@@ -27,6 +27,14 @@ public class AccountRepositoryImpl extends AbstractRepository<Account> implement
         this.ds = ds;
     }
 
+    /**
+     * updates balance of certain account
+     *
+     * @param accountId id of account which balance needs to be updates
+     * @param amount    new amount of money on balance
+     * @return updated account and list of error messages
+     * @throws SQLException in case of database issues
+     */
     @Override
     public Response<Account> updateBalance(long accountId, BigDecimal amount) throws SQLException {
         logger.debug("update account balance with id = {} by amount {}", accountId, amount);
@@ -42,6 +50,15 @@ public class AccountRepositoryImpl extends AbstractRepository<Account> implement
         }
     }
 
+    /**
+     * updates balance of certain account in a given connection
+     *
+     * @param accountId id of account which balance needs to be updates
+     * @param amount    new amount of money on balance
+     * @param c         connection where update will be executed
+     * @return updated account and list of error messages
+     * @throws SQLException in case of database issues
+     */
     @Override
     public Account updateBalance(long accountId, BigDecimal amount, Connection c) throws SQLException {
         logger.debug("update account balance with id = {} by amount {}", accountId, amount);
@@ -55,6 +72,14 @@ public class AccountRepositoryImpl extends AbstractRepository<Account> implement
         return findById(accountId, c);
     }
 
+    /**
+     * withdraws given amount of balance of certain account
+     *
+     * @param accountId id of account where money will be wirthdrawn
+     * @param amount    amount that will be withdrawn
+     * @return updated account and list of error messages
+     * @throws SQLException in case of database issues
+     */
     @Override
     public Response<Account> withdrawAccount(Long accountId, BigDecimal amount) throws SQLException {
         logger.debug("withdraw account balance with id = {} by amount {}", accountId, amount);
@@ -64,6 +89,15 @@ public class AccountRepositoryImpl extends AbstractRepository<Account> implement
         }
     }
 
+    /**
+     * withdraws given amount of balance of certain account in a given connection
+     *
+     * @param accountId id of account where money will be wirthdrawn
+     * @param amount    amount that will be withdrawn
+     * @param c         connection where update will be executed
+     * @return updated account and list of error messages
+     * @throws SQLException in case of database issues
+     */
     @Override
     public Response<Account> withdrawAccount(Long accountId, BigDecimal amount, Connection c) throws SQLException {
         Objects.requireNonNull(accountId, "accountId must be not null");
@@ -93,7 +127,6 @@ public class AccountRepositoryImpl extends AbstractRepository<Account> implement
             return new Response<>(account);
         }
     }
-
 
     @Override
     protected String getTableName() {

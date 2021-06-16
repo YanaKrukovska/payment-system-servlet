@@ -23,6 +23,13 @@ public class PaymentServiceImpl implements PaymentService {
         this.repository = repository;
     }
 
+    /**
+     * find all payments of certain client
+     *
+     * @param clientId id of client whose payments need to be found
+     * @param page     paging and sorting parameters for search
+     * @return found payments
+     */
     @Override
     public List<Payment> findAllClientPayments(long clientId, PageAndSort page) {
         logger.debug("Find payments for clientId {}, page and sort {}", clientId, page);
@@ -37,6 +44,12 @@ public class PaymentServiceImpl implements PaymentService {
         }
     }
 
+    /**
+     * saves a new payment
+     *
+     * @param payment payment that needs to be saved
+     * @return created payment
+     */
     @Override
     public Payment create(Payment payment) {
         logger.debug("Creating new payment {}", payment);
@@ -51,6 +64,12 @@ public class PaymentServiceImpl implements PaymentService {
         }
     }
 
+    /**
+     * sends a payment: changes it's status and withdraws money from account's balance
+     *
+     * @param paymentId id of payment that needs to be sent
+     * @return sent payment and list of error messages
+     */
     @Override
     public Response<Payment> send(long paymentId) {
         logger.debug("Sending  payment {}", paymentId);
@@ -63,6 +82,12 @@ public class PaymentServiceImpl implements PaymentService {
         }
     }
 
+    /**
+     * counts amount of client's payments
+     *
+     * @param clientId id of client whose payments need to be counted
+     * @return amount of client's payments
+     */
     @Override
     public long count(long clientId) {
         logger.debug("Count  payments for client {}", clientId);

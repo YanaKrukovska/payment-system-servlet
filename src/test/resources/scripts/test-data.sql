@@ -12,7 +12,7 @@ UPDATE users SET client_id = 2 WHERE id = 3;
 
 INSERT INTO accounts(id, client_id, name, balance, status, iban)
 VALUES (1, 1, 'salary', 2500, 'ACTIVE', 'UA2532820912340000056789'),
-       (2, 2, 'Sugar Daddy', 40000, 'ACTIVE', 'UA2532820112340010056781'),
+       (2, 2, 'Main', 40000, 'ACTIVE', 'UA2532820112340010056781'),
        (3, 2, 'Salary', 15223, 'ACTIVE', 'UA2592820912940010999781');
 
 

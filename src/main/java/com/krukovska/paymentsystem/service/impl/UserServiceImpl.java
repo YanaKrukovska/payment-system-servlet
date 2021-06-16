@@ -20,6 +20,12 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * finds user by given id
+     *
+     * @param id id of user that needs to be found
+     * @return found user
+     */
     @Override
     public User getById(long id) {
         logger.debug("Get user by id = {}", id);
@@ -32,12 +38,18 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * finds user by given email
+     *
+     * @param email email of user that needs to be found
+     * @return found user
+     */
     @Override
     public User getByEmail(String email) {
         logger.debug("Get user by email = {}", email);
         try {
             List<User> users = userRepository.findByField(new Field("email", email));
-            if  (users.isEmpty()){
+            if (users.isEmpty()) {
                 return null;
             }
             return users.get(0);

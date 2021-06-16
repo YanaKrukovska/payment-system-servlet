@@ -23,6 +23,10 @@ public class ClientServiceImpl implements ClientService {
         this.clientRepository = clientRepository;
     }
 
+    /**
+     * @param id id of client that needs to be found
+     * @return found client
+     */
     @Override
     public Client findClientById(long id) {
         logger.debug("Get client by id = {}", id);
@@ -35,6 +39,10 @@ public class ClientServiceImpl implements ClientService {
         }
     }
 
+    /**
+     * @param page paging and sorting parameters for search
+     * @return all clients
+     */
     @Override
     public List<Client> findAllClients(PageAndSort page) {
         logger.debug("Get all clients page = {}", page);
@@ -47,18 +55,29 @@ public class ClientServiceImpl implements ClientService {
         }
     }
 
+    /**
+     * @param clientId id of client that needs to be blocked
+     * @return updated client and list of error messages
+     */
     @Override
     public Response<Client> blockClient(long clientId) {
         logger.debug("Blocking Client id = {}", clientId);
         return changeClientStatus(clientId, ClientStatus.BLOCKED);
     }
 
+    /**
+     * @param clientId id of client that needs to be unblocked
+     * @return updated client and list of error messages
+     */
     @Override
     public Response<Client> unblockClient(long clientId) {
         logger.debug("Unblocking Client id = {}", clientId);
         return changeClientStatus(clientId, ClientStatus.ACTIVE);
     }
 
+    /**
+     * @return amount of all clients
+     */
     @Override
     public long count() {
         logger.debug(" Client count");
@@ -72,6 +91,13 @@ public class ClientServiceImpl implements ClientService {
     }
 
 
+    /**
+     * updates status of client
+     *
+     * @param clientId  id of client whose status needs to be updated
+     * @param newStatus new status that will be set to client
+     * @return updated client and list of error messages
+     */
     private Response<Client> changeClientStatus(long clientId, ClientStatus newStatus) {
         logger.debug("Changing status for client  id = {} new status = {}", clientId, newStatus);
 

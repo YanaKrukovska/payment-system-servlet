@@ -16,11 +16,16 @@ public class CreditCardServiceImpl implements CreditCardService {
     private static final Logger logger = LogManager.getLogger(CreditCardServiceImpl.class);
     private final CreditCardRepository repository;
 
-
     public CreditCardServiceImpl(CreditCardRepository repository) {
         this.repository = repository;
     }
 
+    /**
+     * find credit card by it's number
+     *
+     * @param cardNumber number of card that needs to be found
+     * @return found credit card
+     */
     @Override
     public CreditCard findCardByCardNumber(String cardNumber) {
         logger.debug("getting card by number {}", cardNumber);
@@ -38,6 +43,12 @@ public class CreditCardServiceImpl implements CreditCardService {
         }
     }
 
+    /**
+     * finds credit card by given account id
+     *
+     * @param accountId id of account that the searched card belongs to
+     * @return found credit card
+     */
     @Override
     public CreditCard findCreditCardByAccountId(Long accountId) {
         logger.debug("getting credit cards by accountId {}", accountId);

@@ -31,7 +31,14 @@ public class PaymentRepositoryImpl extends AbstractRepository<Payment> implement
         this.ds = ds;
     }
 
-
+    /**
+     * finds all payments of certain client
+     *
+     * @param clientId id of client whose payments need to be found
+     * @param page     paging and sorting parameters for search
+     * @return list of client's payments
+     * @throws SQLException in case of db issues
+     */
     @Override
     public List<Payment> findClientPayments(long clientId, PageAndSort page) throws SQLException {
         Objects.requireNonNull(page, "Page must be not null ");
@@ -40,6 +47,12 @@ public class PaymentRepositoryImpl extends AbstractRepository<Payment> implement
         return queryForObjects(SQLHelper.createPageableSelectForPayments(getTableName(), page), singletonList(clientId));
     }
 
+    /**
+     * sends payment, updates status to sent and withdraws money from account the payment belongs to
+     *
+     * @param paymentId id of payment that is being sent
+     * @return updated payment and list of error messages
+     */
     @Override
     public Response<Payment> send(long paymentId) {
         HashSet<Field> fieldsToUpdate = new HashSet<>(Arrays.asList(new Field("status",
@@ -89,12 +102,24 @@ public class PaymentRepositoryImpl extends AbstractRepository<Payment> implement
         return resultResponse;
     }
 
+    /**
+     * writes all received errors
+     *
+     * @param resultResponse list of error messages
+     */
     private void logErrors(Response<Payment> resultResponse) {
         for (String message : resultResponse.getErrors()) {
             logger.debug(message);
         }
     }
 
+    /**
+     * counts all payments of certain client
+     *
+     * @param clientId id of clients whose payments are counted
+     * @return amount of client's payments
+     * @throws SQLException in case of db issues
+     */
     @Override
     public long countByClient(long clientId) throws SQLException {
         getLogger().debug("Getting payment count for client id = {}", clientId);
